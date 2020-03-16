@@ -37,7 +37,7 @@ def xirr(valuesPerDate):
     >>> xirr(valuesPerDate)
     -0.6454
     '''
-    if not valuesPerDate:
+    if not valuesPerDate or len(valuesPerDate) < 2:
         return None
 
     result = None
