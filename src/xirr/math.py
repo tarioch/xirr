@@ -44,7 +44,7 @@ def xirr(valuesPerDate):
     try:
         result = scipy.optimize.newton(lambda r: xnpv(valuesPerDate, r), 0)
     except (RuntimeError, OverflowError):    # Failed to converge?
-        result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -1.0, 1e10)
+        result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -1.0, 1e20)
 
     if not isinstance(result, complex):
         return result
@@ -59,7 +59,6 @@ def cleanXirr(valuesPerDate):
     for date, amount in valuesPerDate.items():
         if round(amount, 2) != 0:
             valuesPerDateCleaned[date] = amount
-
     result = xirr(valuesPerDateCleaned)
     if result is not None and (abs(result) >= 100 or round(result, 4) == 0):
         return None
