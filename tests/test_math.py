@@ -15,6 +15,7 @@ from xirr.math import xirr, cleanXirr, xnpv
     ({'2019-12-31': -100, '2020-03-05': 100}, 0.0),
     ({'2019-12-31': -100, '2020-03-05': 1000}, 412461.6383),
     ({'2017-12-16': -2236.3994659663, '2017-12-26': -47.3417585212, '2017-12-29': -46.52619316339632, '2017-12-31': 10424.74612565936, '2017-12-20': -13.077972551952}, 1.2238535289956518e+16),
+    ({'2018-05-09': -200, '2018-06-09': 30, '2018-11-09': 50, '2018-12-09': 20}, -0.8037),
 ])
 def test_xirr(valuesPerDateString, expected):
     valuesPerDate = {datetime.fromisoformat(k).date(): v for k, v in valuesPerDateString.items()}
@@ -33,6 +34,7 @@ def test_xirr(valuesPerDateString, expected):
     ({'2019-12-31': -0.00001, '2020-03-05': 0.00001}, None),
     ({'2019-12-31': -100, '2020-03-05': 100}, None),
     ({'2019-12-31': -100, '2020-03-05': 1000}, None),
+    ({'2018-05-09': -200, '2018-06-09': 30, '2018-11-09': 50, '2018-12-09': 20}, -0.8037),
 ])
 def test_cleanXirr(valuesPerDateString, expected):
     valuesPerDate = {datetime.fromisoformat(k).date(): v for k, v in valuesPerDateString.items()}
