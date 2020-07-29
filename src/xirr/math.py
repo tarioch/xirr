@@ -40,6 +40,11 @@ def xirr(valuesPerDate):
     if not valuesPerDate or len(valuesPerDate) < 2:
         return None
 
+    if(all(v >= 0 for _, v in valuesPerDate.items())):
+        return -float("inf")
+    if(all(v <= 0 for _, v in valuesPerDate.items())):
+        return float("inf")
+
     result = None
     try:
         result = scipy.optimize.newton(lambda r: xnpv(valuesPerDate, r), 0)
