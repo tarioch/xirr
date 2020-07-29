@@ -13,9 +13,9 @@ def xnpv(valuesPerDate, rate):
     '''Calculate the irregular net present value.
 
     >>> from datetime import date
-    >>> valuesPerDate = {date(2019, 12, 31): -100, date(2020, 12, 31): 110)}
+    >>> valuesPerDate = {date(2019, 12, 31): -100, date(2020, 12, 31): 110}
     >>> xnpv(valuesPerDate, -0.10)
-    22.2575
+    22.257507852701295
     '''
 
     if rate == -1.0:
@@ -33,9 +33,9 @@ def xirr(valuesPerDate):
     '''Calculate the irregular internal rate of return.
 
     >>> from datetime import date
-    >>> valuesPerDate = {date(2019, 12, 31): -80005.8, date(2020, 03, 12): 65209.6)}
+    >>> valuesPerDate = {date(2019, 12, 31): -80005.8, date(2020, 3, 12): 65209.6}
     >>> xirr(valuesPerDate)
-    -0.6454
+    -0.6453638827247169
     '''
     if not valuesPerDate or len(valuesPerDate) < 2:
         return None
