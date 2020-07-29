@@ -1,5 +1,6 @@
 import scipy.optimize
 
+
 DAYS_PER_YEAR = 365.0
 
 #
@@ -35,21 +36,21 @@ def xirr(valuesPerDate):
     >>> from datetime import date
     >>> valuesPerDate = {date(2019, 12, 31): -80005.8, date(2020, 3, 12): 65209.6}
     >>> xirr(valuesPerDate)
-    -0.6453638827247169
+    -0.645363882724717
     '''
     if not valuesPerDate or len(valuesPerDate) < 2:
         return None
 
-    if(all(v >= 0 for v in valuesPerDate.values())):
+    if all(v >= 0 for v in valuesPerDate.values()):
         return -float("inf")
-    if(all(v <= 0 for v in valuesPerDate.values())):
+    if all(v <= 0 for v in valuesPerDate.values()):
         return float("inf")
 
     result = None
     try:
         result = scipy.optimize.newton(lambda r: xnpv(valuesPerDate, r), 0)
     except (RuntimeError, OverflowError):    # Failed to converge?
-        result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -1.0, 1e20)
+        result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -0.999999999999999, 1e20)
 
     if not isinstance(result, complex):
         return result
