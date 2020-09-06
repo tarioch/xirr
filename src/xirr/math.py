@@ -42,9 +42,9 @@ def xirr(valuesPerDate):
         return None
 
     if all(v >= 0 for v in valuesPerDate.values()):
-        return -float("inf")
-    if all(v <= 0 for v in valuesPerDate.values()):
         return float("inf")
+    if all(v <= 0 for v in valuesPerDate.values()):
+        return -float("inf")
 
     result = None
     try:
