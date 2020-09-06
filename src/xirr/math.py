@@ -38,13 +38,13 @@ def xirr(valuesPerDate):
     >>> xirr(valuesPerDate)
     -0.645363882724717
     '''
-    if not valuesPerDate or len(valuesPerDate) < 2:
+    if not valuesPerDate:
         return None
 
     if all(v >= 0 for v in valuesPerDate.values()):
-        return -float("inf")
-    if all(v <= 0 for v in valuesPerDate.values()):
         return float("inf")
+    if all(v <= 0 for v in valuesPerDate.values()):
+        return -float("inf")
 
     result = None
     try:
