@@ -50,7 +50,7 @@ def xirr(valuesPerDate):
     try:
         result = scipy.optimize.newton(lambda r: xnpv(valuesPerDate, r), 0)
     except (RuntimeError, OverflowError):    # Failed to converge?
-        result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -0.999999999999999, 1e20)
+        result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -0.999999999999999, 1e20, maxiter=10**6)
 
     if not isinstance(result, complex):
         return result
