@@ -1,5 +1,5 @@
 import scipy.optimize
-
+import dateparser
 
 DAYS_PER_YEAR = 365.0
 
@@ -8,7 +8,16 @@ DAYS_PER_YEAR = 365.0
 # with some handling for special cases from
 # https://github.com/RayDeCampo/java-xirr/blob/master/src/main/java/org/decampo/xirr/Xirr.java
 #
-
+def try_parsing_date(text):
+    """
+    try and parse date
+    :param text: string
+    :return: date part of datetime object
+    """
+    try:
+        return dateparser.parse(text).date()
+    except:
+        pass
 
 def xnpv(valuesPerDate, rate):
     '''Calculate the irregular net present value.
@@ -70,3 +79,20 @@ def cleanXirr(valuesPerDate):
         return None
     else:
         return result
+        
+        
+        
+def xirr_df(df, date = 'date', amount= 'amount'):
+    """
+
+    :param df: pandas df
+    :param date: date column name
+    :param amount: amount column name
+    :return: xirr for given date and amount values
+    """
+
+    dates = df[date].tolist()
+    amounts = df[amount].tolist()
+    dates_parsed = list(map(try_parsing_date, dates))
+    valuesPerDate = dict(zip(dates_parsed, amounts))
+    return xirr.xirr(valuesPerDate)
