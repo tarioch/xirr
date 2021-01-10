@@ -65,7 +65,10 @@ def cleanXirr(valuesPerDate):
     for date, amount in valuesPerDate.items():
         if round(amount, 2) != 0:
             valuesPerDateCleaned[date] = amount
-    result = xirr(valuesPerDateCleaned)
+    try:
+        result = xirr(valuesPerDateCleaned)
+    except ValueError:
+        return None
     if result is not None and (abs(result) >= 100 or round(result, 4) == 0):
         return None
     else:

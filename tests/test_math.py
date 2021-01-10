@@ -53,6 +53,7 @@ def test_xirr(valuesPerDateString, expected):
     ({'2019-12-31': -100, '2020-03-05': 1000}, None),
     ({'2018-05-09': -200, '2018-06-09': 30, '2018-11-09': 50, '2018-12-09': 20}, -0.8037),
     ({'2011-01-01': 1, '2011-01-02': 0, '2012-01-01': 1}, None),
+    ({'2011-01-01': -559.50, '2011-01-02': 4650.96}, None),
 ])
 def test_cleanXirr(valuesPerDateString, expected):
     valuesPerDate = {datetime.fromisoformat(k).date(): v for k, v in valuesPerDateString.items()}
