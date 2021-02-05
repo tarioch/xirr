@@ -73,3 +73,18 @@ def cleanXirr(valuesPerDate):
         return None
     else:
         return result
+
+
+def listsXirr(dates, values, whichXirr=xirr):
+    '''A convenience function that takes two lists of dates and values rather than a combined dictionary.
+
+    Use whichXirr to select the actuall xirr function to use.
+
+    Anti-pattern: Using a simple dictionary comprehension would not work, e.g.
+    `xirr({d: v for d, v in zip(dates, values)})`
+    Because this overwrites entries with identical dates.
+    '''
+    valuesPerDate = {}
+    for date, value in zip(dates, values):
+        valuesPerDate[date] = valuesPerDate.get(date, 0) + value
+    return whichXirr(valuesPerDate)
