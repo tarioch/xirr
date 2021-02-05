@@ -2,7 +2,7 @@ import pytest
 from pytest import approx
 
 from datetime import datetime
-from xirr.math import xirr, cleanXirr, xnpv
+from xirr.math import xirr, cleanXirr, xnpv, listsXirr
 
 
 @pytest.mark.parametrize("valuesPerDateString,expected", [
@@ -75,3 +75,12 @@ def test_xnpv(valuesPerDateString, rate, expected):
         assert actual == approx(expected, 0.0001)
     else:
         assert actual == expected
+
+
+@pytest.mark.parametrize("dates,values,expected", [
+    ([datetime(2019, 1, 1), datetime(2020, 1, 1)], [-1, 1.1], 0.1),
+    ([datetime(2019, 1, 1), datetime(2020, 1, 1), datetime(2020, 1, 1)], [-1, 1, 0.1], 0.1),
+])
+def test_listsXirr(dates, values, expected):
+    actual = listsXirr(dates, values)
+    assert round(actual, 4) == expected
