@@ -77,7 +77,7 @@ def cleanXirr(valuesPerDate):
 
 def listsXirr(dates, values, whichXirr=xirr):
     '''A convenience function that takes two lists of dates and values rather than a combined dictionary.
-    
+
     Use whichXirr to select the actuall xirr function to use.
 
     Anti-pattern: Using a simple dictionary comprehension would not work, e.g.
