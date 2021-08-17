@@ -18,15 +18,11 @@ def xnpv(valuesPerDate, rate):
     >>> xnpv(valuesPerDate, -0.10)
     22.257507852701295
     '''
-
     if rate == -1.0:
         return float('inf')
-
     t0 = min(valuesPerDate.keys())
-
     if rate <= -1.0:
         return sum([-abs(vi) / (-1.0 - rate)**((ti - t0).days / DAYS_PER_YEAR) for ti, vi in valuesPerDate.items()])
-
     return sum([vi / (1.0 + rate)**((ti - t0).days / DAYS_PER_YEAR) for ti, vi in valuesPerDate.items()])
 
 
@@ -40,18 +36,15 @@ def xirr(valuesPerDate):
     '''
     if not valuesPerDate:
         return None
-
     if all(v >= 0 for v in valuesPerDate.values()):
         return float("inf")
     if all(v <= 0 for v in valuesPerDate.values()):
         return -float("inf")
-
     result = None
     try:
         result = scipy.optimize.newton(lambda r: xnpv(valuesPerDate, r), 0)
     except (RuntimeError, OverflowError):    # Failed to converge?
         result = scipy.optimize.brentq(lambda r: xnpv(valuesPerDate, r), -0.999999999999999, 1e20, maxiter=10**6)
-
     if not isinstance(result, complex):
         return result
     else:
