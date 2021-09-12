@@ -7,7 +7,7 @@
 
 
 xirr
-==============
+====
 
 Irregular internal rate of return (xirr) and net present value (npv) calculations.
 
