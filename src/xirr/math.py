@@ -1,3 +1,6 @@
+import datetime
+from typing import Callable, Optional
+
 import scipy.optimize
 
 DAYS_PER_YEAR = 365.0
@@ -9,7 +12,7 @@ DAYS_PER_YEAR = 365.0
 #
 
 
-def xnpv(valuesPerDate, rate):
+def xnpv(valuesPerDate: dict[datetime.date, float], rate: float) -> float:
     """Calculate the irregular net present value.
 
     >>> from datetime import date
@@ -35,7 +38,7 @@ def xnpv(valuesPerDate, rate):
     )
 
 
-def xirr(valuesPerDate):
+def xirr(valuesPerDate: dict[datetime.date, float]) -> Optional[float]:
     """Calculate the irregular internal rate of return.
 
     >>> from datetime import date
@@ -62,8 +65,9 @@ def xirr(valuesPerDate):
         return None
 
 
-def cleanXirr(valuesPerDate):
-    """A "cleaned" version of the xirr which avoids returning a xirr for some extreme cases and ignores amounts which are almost 0."""
+def cleanXirr(valuesPerDate: dict[datetime.date, float]) -> Optional[float]:
+    """A "cleaned" version of the xirr which avoids returning a xirr for some
+    extreme cases and ignores amounts which are almost 0."""
     valuesPerDateCleaned = {}
     for date, amount in valuesPerDate.items():
         if round(amount, 2) != 0:
@@ -78,8 +82,13 @@ def cleanXirr(valuesPerDate):
         return result
 
 
-def listsXirr(dates, values, whichXirr=xirr):
-    """A convenience function that takes two lists of dates and values rather than a combined dictionary.
+def listsXirr(
+    dates: list[datetime.date],
+    values: list[float],
+    whichXirr: Callable[[dict[datetime.date, float]], Optional[float]] = xirr,
+) -> Optional[float]:
+    """A convenience function that takes two lists of dates and values rather
+    than a combined dictionary.
 
     Use whichXirr to select the actuall xirr function to use.
 
@@ -87,7 +96,7 @@ def listsXirr(dates, values, whichXirr=xirr):
     `xirr({d: v for d, v in zip(dates, values)})`
     Because this overwrites entries with identical dates.
     """
-    valuesPerDate = {}
+    valuesPerDate: dict[datetime.date, float] = {}
     for date, value in zip(dates, values):
         valuesPerDate[date] = valuesPerDate.get(date, 0) + value
     return whichXirr(valuesPerDate)
