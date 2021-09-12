@@ -16,6 +16,9 @@ sphinx:
 formats:
   - pdf
 
+build:
+  image: testing
+
 python:
   version: "3.9"
   install:
