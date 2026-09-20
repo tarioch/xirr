@@ -59,7 +59,8 @@ Things that catch people out:
 ## Git and pull requests
 
 - Branch off `master`, named `feature/…`, `bugfix/…` or `chore/…` (snake_case after the prefix). The prefix labels the PR
-  (`.github/pr-labeler.yml`), and the label decides the category in the release notes (`.github/release-drafter.yml`).
+  (`.github/pr-labeler.yml`), and the label decides the category in the release notes (the shared
+  `release-drafter.yml` of [tarioch/.github](https://github.com/tarioch/.github)).
 - Commit subjects are imperative and start with a capital letter ("Fix xirr for a single negative cash flow"),
   the body explains why.
 - Changes go through pull requests into `master`.
