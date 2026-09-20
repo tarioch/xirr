@@ -1,5 +1,5 @@
 import datetime
-from typing import Callable, Optional
+from collections.abc import Callable
 
 import scipy.optimize
 
@@ -38,7 +38,7 @@ def xnpv(valuesPerDate: dict[datetime.date, float], rate: float) -> float:
     )
 
 
-def xirr(valuesPerDate: dict[datetime.date, float]) -> Optional[float]:
+def xirr(valuesPerDate: dict[datetime.date, float]) -> float | None:
     """Calculate the irregular internal rate of return.
 
     >>> from datetime import date
@@ -65,10 +65,10 @@ def xirr(valuesPerDate: dict[datetime.date, float]) -> Optional[float]:
         return None
 
 
-def cleanXirr(valuesPerDate: dict[datetime.date, float]) -> Optional[float]:
+def cleanXirr(valuesPerDate: dict[datetime.date, float]) -> float | None:
     """A "cleaned" version of the xirr which avoids returning a xirr for some
     extreme cases and ignores amounts which are almost 0."""
-    valuesPerDateCleaned = {}
+    valuesPerDateCleaned: dict[datetime.date, float] = {}
     for date, amount in valuesPerDate.items():
         if round(amount, 2) != 0:
             valuesPerDateCleaned[date] = amount
@@ -85,8 +85,8 @@ def cleanXirr(valuesPerDate: dict[datetime.date, float]) -> Optional[float]:
 def listsXirr(
     dates: list[datetime.date],
     values: list[float],
-    whichXirr: Callable[[dict[datetime.date, float]], Optional[float]] = xirr,
-) -> Optional[float]:
+    whichXirr: Callable[[dict[datetime.date, float]], float | None] = xirr,
+) -> float | None:
     """A convenience function that takes two lists of dates and values rather
     than a combined dictionary.
 
@@ -97,6 +97,6 @@ def listsXirr(
     Because this overwrites entries with identical dates.
     """
     valuesPerDate: dict[datetime.date, float] = {}
-    for date, value in zip(dates, values):
+    for date, value in zip(dates, values, strict=False):
         valuesPerDate[date] = valuesPerDate.get(date, 0) + value
     return whichXirr(valuesPerDate)

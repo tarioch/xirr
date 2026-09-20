@@ -59,7 +59,9 @@ def test_xirr(valuesPerDateString, expected):
     }
     actual = xirr(valuesPerDate)
     if expected:
-        assert round(actual, 4) == expected
+        # expected values are rounded to 4 digits, the huge ones only agree to the
+        # precision of the solver, which differs between scipy versions
+        assert actual == approx(expected, rel=1e-9, abs=1e-4)
     else:
         assert actual == expected
 

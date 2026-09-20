@@ -1,8 +1,83 @@
-[build-system]
-requires = ["setuptools>=46.1.0", "wheel", "setuptools_scm[toml]>=5"]
-build-backend = "setuptools.build_meta"
+[project]
+name = "xirr"
+description = "xirr and xnpv calculators"
+authors = [
+    {name = "Patrick Ruckstuhl", email = "patrick@ch.tario.org"}
+]
+readme = "README.rst"
+license = "MIT"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Intended Audience :: Developers",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Accounting",
+    "Topic :: Office/Business :: Financial :: Investment"
+]
+dynamic = ["version"]
+requires-python = ">=3.11"
+dependencies = [
+    "scipy",
+]
 
-[tool]
-[tool.setuptools_scm]
-version_scheme = "no-guess-dev"
-local_scheme = "no-local-version"
+[project.urls]
+Homepage = "https://github.com/tarioch/xirr"
+Documentation = "https://xirr.rtfd.io"
+Repository = "https://github.com/tarioch/xirr/"
+Issues = "https://github.com/tarioch/xirr/issues"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pre-commit",
+    "deptry",
+    "mypy",
+]
+docs = [
+    "sphinx>=7",
+    "sphinx_rtd_theme"
+]
+
+[build-system]
+requires = ["hatchling >= 1.26", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+format-jinja = """
+    {%- if distance == 0 -%}
+        {{ serialize_pep440(base, stage, revision) }}
+    {%- elif revision is not none -%}
+        {{ serialize_pep440(base, stage, revision + 1, dev=distance) }}
+    {%- else -%}
+        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance) }}
+    {%- endif -%}
+"""
+fallback-version = "0.0.0"
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+testpaths = ["src", "tests"]
+
+[tool.ruff]
+extend-exclude = ["docs/conf.py"]
+
+[tool.ruff.lint]
+# explicit instead of the ruff defaults, which change between versions
+select = ["E4", "E7", "E9", "F", "B", "I", "S113", "T20", "UP"]
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
