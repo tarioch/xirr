@@ -1,7 +1,7 @@
 name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
 on:
   push:
-    branches: [master]
+    branches: [main, master]
     tags: ["v*"]
   pull_request:
 
@@ -93,7 +93,7 @@ jobs:
   publish-testpypi:
     name: Publish 📦 to TestPyPI
     needs: [lint, test, build]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     environment:
