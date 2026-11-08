@@ -58,20 +58,20 @@ Things that catch people out:
 
 ## Git and pull requests
 
-- Branch off `master`, named `feature/…`, `bugfix/…` or `chore/…` (snake_case after the prefix). The prefix labels the PR
+- Branch off `main`, named `feature/…`, `bugfix/…` or `chore/…` (snake_case after the prefix). The prefix labels the PR
   (`.github/pr-labeler.yml`), and the label decides the category in the release notes (the shared
   `release-drafter.yml` of [tarioch/.github](https://github.com/tarioch/.github)).
 - Commit subjects are imperative and start with a capital letter ("Fix xirr for a single negative cash flow"),
   the body explains why.
-- Changes go through pull requests into `master`.
+- Changes go through pull requests into `main`.
 
 ## CI and releases
 
-`.github/workflows/build-publish.yml` runs `lint`, `test` (matrix), `build`, and on pushes to `master` and version tags
+`.github/workflows/build-publish.yml` runs `lint`, `test` (matrix), `build`, and on pushes to `main` and version tags
 the publish jobs. Workflows use the least permissions they need, and every action is pinned to a commit SHA
 (Dependabot keeps the pins current, zizmor fails for unpinned actions or broad permissions).
 
-- Every push to `master` publishes a development version to TestPyPI.
+- Every push to `main` publishes a development version to TestPyPI.
 - Release notes are drafted by release-drafter. Publishing the draft creates the tag `vX.Y.Z`, which publishes to PyPI.
 - Publishing uses PyPI trusted publishing (OIDC) from the GitHub environments `testpypi` and `pypi`, there are no
   stored tokens.
