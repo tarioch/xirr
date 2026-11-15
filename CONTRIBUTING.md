@@ -19,7 +19,7 @@ The examples in the docstrings are doctests and run with the tests.
 uv sync --locked --dev
 ```
 
-Python 3.11 to 3.14 are supported and tested.
+Python 3.12 to 3.14 are supported and tested.
 
 ## Checks
 
